@@ -23,6 +23,12 @@ def convert_to_standard(a1,a2,b1,b2):
 
 # Ckeck: Schnittmenge = 0
 def intersects(h,a1,a2,b1,b2):
+    T = convert_to_standard(a1,a2,b1,b2)    # a = links-unten, b = rechts-oben
+    a1 = T[0]
+    a2 = T[1]
+    b1 = T[2]
+    b2 = T[3]
+
     if a1 > x_02 or b1 < x_01:
         return False
     elif a2 > h or b2 < y_01:
@@ -32,6 +38,10 @@ def intersects(h,a1,a2,b1,b2):
 
 # Get Delta x
 def get_delta_x1(a1,b1):
+    T = convert_to_standard(a1,0,b1,0)    # a = links-unten, b = rechts-oben
+    a1 = T[0]
+    b1 = T[2]
+
     Lx_1 = 0
     Lx_2 = 0
 
@@ -45,11 +55,15 @@ def get_delta_x1(a1,b1):
     elif b1 >= x_01:
         Lx_2 = b1
 
-    Lx = abs(Lx_2-Lx_1)
+    Lx = Lx_2-Lx_1
     return Lx
 
 # Get Delta y
 def get_delta_x2(h,a2,b2):
+    T = convert_to_standard(0,a2,0,b2)    # a = links-unten, b = rechts-oben
+    a2 = T[1]
+    b2 = T[3]
+
     Ly_1 = 0
     Ly_2 = 0
 
@@ -63,7 +77,7 @@ def get_delta_x2(h,a2,b2):
     elif b2 >= y_01:
         Ly_2 = b2
 
-    Ly = abs(Ly_2-Ly_1)
+    Ly = Ly_2-Ly_1
     return Ly
 
 # Get Lattice Points
@@ -88,5 +102,5 @@ def get_lattice_point_number(h,a1,a2,b1,b2):
         Ly = get_delta_x2(h,a2,b2)          # Delta y
 
     L = (Lx+1)*(Ly+1)
-    
+
     return 'Die Zahl der Gitterpunkte im resultierenden Rechteck betraegt {}.'.format(L)

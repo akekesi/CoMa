@@ -116,7 +116,7 @@ def get_lattice_point_number(h,a1,a2,b1,b2):
  # Plot
     plot_lattice_point(X_0,Y_0,X_1,Y_1)
 
-    # Schnittmenge
+ # Schnittmenge
     intersect = intersects(h,a1,a2,b1,b2)   # Check: Schnittmenge = 0
     if intersect != True:
          return 'Der Schnitt der gegebenen Rechtecke ist leer.'

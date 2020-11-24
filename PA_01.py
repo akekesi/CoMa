@@ -12,7 +12,7 @@ def roots(a,b,c,d,e,f):
 	C = [0]*(L+3)	# Koeff. von Funk_3
 	C[-1] = 1
 
-	s = 0;			# Vorzeichenwechsel
+	s = 0			# Vorzeichenwechsel
 
 # Berechnung der Koeff. von Funk_3
 	for n in range(L):

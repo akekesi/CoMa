@@ -1,4 +1,4 @@
-# CoMa_I_Tu_Berlin_Python
+# CoMa_I_TU_Berlin_Python
 # WiSe 20/21
 
 ## Authors

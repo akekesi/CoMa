@@ -28,6 +28,8 @@ def abstand(s,t,dateiname = "labyrinth.dat"):
     S = [[y,x]]                             # Anfangspunkte mit gleicher Nummerierung
     schritte = [[0,1],[0,-1],[1,0],[-1,0]]  # 4 moegliche Schritte von einem Punkt (links, rechts, oben, unten)
     S_neu = S                               # naechste Anfangspunkte mit gleicher Nummerierung
+    if s == t:
+        return 0
     while S_neu != []:                      # bis neue Schritte moeglich
         S_neu = []
         step += 1
@@ -54,8 +56,8 @@ def print_L(L):
 
 # Testfunktion
 def test_abstand():
-    s = [(0,9),(1,4),(0,9)]
-    t = [(2,2),(2,2),(0,7)]
+    s = [(0,9),(1,4),(0,9),(0,9)]
+    t = [(2,2),(2,2),(0,7),(0,9)]
     for i in range(len(s)):
         print(abstand(s[i],t[i]))
         print(abstand(s[i],t[i],"labyrinth_2.dat"))

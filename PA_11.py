@@ -4,6 +4,7 @@
 # Hauptfunktion
 # Input:    Matrix als str
 # Output:   L und U Matrizen in ein Matrix als str
+# O(n^3)
 def LU_decomposition(M):
     M = str_to_matrix(M)            # str_to_matrix
     L = []                          # L Matrix
@@ -24,9 +25,11 @@ def LU_decomposition(M):
         U.append(tmpU)              # U = M
         R.append(tmpR)              # R = zeros(size(M))
 
-    for i in range(len(M)):                         # LU-Zerlegung
+    for i in range(len(M)):                     # LU-Zerlegung
         for k in range(i+1,len(M)):
-            tmp = int(U[k][i] / U[i][i])            # Werte fuer L
+            tmp = round(U[k][i] / U[i][i],1)    # Werte fuer L
+            if str(tmp)[-1] == '0':             # x.0 --> x
+                tmp = int(tmp)
             for j in range(len(M[0])-1,-1,-1):
                 U[k][j] = U[k][j] - tmp * U[i][j]
                 L[k][i] = tmp
@@ -46,29 +49,29 @@ def matrix_to_str(M):
     for i in range(len(M)):
         for j in range(len(M[0])):
             s += str(M[i][j])
-            if i*j < (len(M)-1) * (len(M[0])-1):
-                if j < len(M[0])-1:
+            if i*j < (len(M)-1) * (len(M[0])-1):    # nicht Ende der Matrix
+                if j < len(M[0])-1:                 # nicht Ende der Zeile
                     s += ' '
-                else:
+                else:                               # Ende der Zeile
                     s += ', '
     return s
 
 # Hilfsfunktion: str_to_matrix
 def str_to_matrix(s):
     M = []
-    S = '[['
+    S = '[['                    # str als Matrix umschreiben
     for i in range(len(s)):
         if s[i] == ' ':
-            if s[i-1] == ',':
+            if s[i-1] == ',':   # Erste Zahl der neuen Zeile am Anfang ohne ' ' 
                 continue
             else:
-                S += ','
-        elif s[i] == ',':
+                S += ','        # ',' zwischen den Zahlen
+        elif s[i] == ',':       # neue Zeile '],['
             S += '],['
         else:
             S += str(s[i])
     S += ']]'
-    M = eval(S)
+    M = eval(S)                 # str --> Matrix
     return M
 
 # Testfunktion

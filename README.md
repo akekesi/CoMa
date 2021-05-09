@@ -2,4 +2,4 @@
 # WiSe 20/21, SoSe 21
 
 ## Authors
-* Attila Kekesi (except PA_xx_test.py and *VL*.py)
+* Attila Kekesi (except PA_xx_test.py and \*VL\*.py)

@@ -107,11 +107,7 @@ def top_sort_ganze(adj):
                     if l in a:
                         a.remove(l)
         if len(K) == 0 and len(T) != len(adj):  # ha nincs mar csp 0 bejovovel, de meg nem vizsgaltunk meg minden cp-ot
-            tmp = []                            # akkor kell uj K ertek a kovi loop-hoz (ahol valoszinu Kreis lesz)
-            for i in range(len(adj)):
-                if i not in L:
-                    tmp.append(i)
-            K = [min(tmp)]
+            return [-1]                         # akkor kell uj K ertek a kovi loop-hoz (ahol valoszinu Kreis lesz)
     return T
 
 def class_to_adj(G):
@@ -272,5 +268,9 @@ if __name__ == "__main__":
     print(top_order(G))
     b.successors = []
     m.successors = [j]
+    G = [a,b,c,d,e,f,g,h,i,j,k,l,m]
+    print(top_order(G))
+    m.successors = []
+    j.successors = [j]
     G = [a,b,c,d,e,f,g,h,i,j,k,l,m]
     print(top_order(G))

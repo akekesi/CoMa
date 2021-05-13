@@ -7,7 +7,7 @@ class Stack:
         self.items = []
     
     def isEmpty(self):
-        return self.items ==[]
+        return self.items == []
     
     def push(self, item):
         self.items.append(item)
@@ -23,9 +23,14 @@ class Stack:
 
 def dfs(adj, r):
     """
+    Es wurde nur bis auf Teilbereiche untersucht.
     Tiefensuche mit Stack
-    r:      Startpunkt
-    adj:    Adjazenzliste: Liste von Knoten, die Listen ueber Nachbarn sind
+    Args:
+        r:   Startpunkt
+        adj: Adjazenzliste: Liste von Knoten, die Listen ueber Nachbarn sind
+    Returns:
+        R: Knotenmenge von Tiefensuche
+        F: Kantenmenge von Tiefensuche
     """
     R = [r]     # Knotenmenge
     F = []      # Kantenmenge
@@ -34,14 +39,14 @@ def dfs(adj, r):
     while not Q.isEmpty():
         v = Q.peek()
         i = 0
-        while len(adj[v]) > i and adj[v][i] in R:
+        while len(adj[v]) > i and adj[v][i] in R:   # van hova tovabb es ez a celpont a mar megjart pontok kozott van? Igen --> i+1 
             i += 1
-        if len(adj[v]) > i:
+        if len(adj[v]) > i:                         # ha meg van pont ami meg nem lett megjarva
             w = adj[v][i]
             R.append(w)
             Q.push(w)
             F.append((v, w))
-        else:
+        else:                                       # ha minden pont meg lett mar jarva, akkor kivesszuk a Q-bol
             Q.pop()
     return (R, F)
 

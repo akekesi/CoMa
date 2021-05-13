@@ -151,6 +151,13 @@ class Test(unittest.TestCase):
 		m.successors = []
 		G = [a,b,c,d,e,f,g,h,i,j,k,l,m]
 		self.assertEqual(top_order(G), ["0","6","7","8","5","4","3","2","1","9","12","11","10"])
+		b.successors = [a]
+		G = [a,b,c,d,e,f,g,h,i,j,k,l,m]
+		self.assertEqual(top_order(G), [-1])
+		b.successors = []
+		m.successors = [j]
+		G = [a,b,c,d,e,f,g,h,i,j,k,l,m]
+		self.assertEqual(top_order(G), [-1])
 
 if __name__ == "__main__":
     unittest.main()

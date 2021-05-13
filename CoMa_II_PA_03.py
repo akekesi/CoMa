@@ -96,16 +96,22 @@ def top_sort_ganze(adj):
     _,K = eingang(adj)
     if len(K) == 0:
         K = [0]
-    while len(K) != 0:
-        R,F,L,C = top_sort_teil(adj,K.pop(0))
+    while len(K) != 0:                          # amig van 0 bejovovel csomopont
+        _,_,L,C = top_sort_teil(adj,K.pop(0))
         if C == True:
-            return [[-1]]
-        T.append(L)
-        if len(L) != len(adj):
+            return [-1]
+        T += L
+        if len(L) != len(adj):                  # kivesszuk a mar felhasznalt csp-okat, hogy oda mar nem menjunk
             for a in adj:
                 for l in L:
                     if l in a:
                         a.remove(l)
+        if len(K) == 0 and len(T) != len(adj):  # ha nincs mar csp 0 bejovovel, de meg nem vizsgaltunk meg minden cp-ot
+            tmp = []                            # akkor kell uj K ertek a kovi loop-hoz (ahol valoszinu Kreis lesz)
+            for i in range(len(adj)):
+                if i not in L:
+                    tmp.append(i)
+            K = [min(tmp)]
     return T
 
 def class_to_adj(G):
@@ -138,13 +144,14 @@ def topsort_to_str(T_num,D_):
     Returns:
         S:  Topologische Sortierung mit orig. Benennung oder [-1], wenn adj Kreis enthaelt
     """
-    if T_num == [[-1]]:
+    if T_num == [-1]:
         return T_num
     T_str = []
     for t in T_num:
-        tmp = []
-        for n in t:
-            tmp.append(D_[n])
+        if t == -1:
+            tmp = t
+        else:
+            tmp = D_[t]
         T_str.append(tmp)
     return T_str
 
@@ -154,25 +161,18 @@ def top_order(G):
     _,D_,adj = class_to_adj(G)
     T_num = top_sort_ganze(adj)
     T_str = topsort_to_str(T_num,D_)
-    T = []
-    for t in T_str:
-        T += t
-    return T
+    return T_str
 
 if __name__ == "__main__":
-    
+
     adj = [[1,3],[0,2],[1,3],[0,2]]
     print(top_sort_ganze(adj))
-    print("---")
     adj = [[1],[2],[5,9],[],[11],[3,7],[4],[3,10],[4],[6,8],[],[]]
     print(top_sort_ganze(adj))
-    print("---")
     adj = [[1],[0]]
     print(top_sort_ganze(adj))
-    print("---")
     adj = [[1],[2],[3],[],[3],[4],[5]]
     print(top_sort_ganze(adj))
-    print("---")
     n = Node()
     m = Node()
     n.name = "Quelle"
@@ -184,11 +184,7 @@ if __name__ == "__main__":
     D,D_,adj = class_to_adj(G)
     T_num = top_sort_ganze(adj)
     T_str = topsort_to_str(T_num,D_)
-    print(adj)
-    print(T_num)
-    print(T_str)
     print("-->",top_order(G))
-    print("---")
     n = Node()
     m = Node()
     n.name = "links"
@@ -200,9 +196,6 @@ if __name__ == "__main__":
     D,D_,adj = class_to_adj(G)
     T_num = top_sort_ganze(adj)
     T_str = topsort_to_str(T_num,D_)
-    print(adj)
-    print(T_num)
-    print(T_str)
     print("-->",top_order(G))
 
     a = Node()
@@ -271,5 +264,13 @@ if __name__ == "__main__":
     k.successors = []
     l.successors = []
     m.successors = []
+    G = [a,b,c,d,e,f,g,h,i,j,k,l,m]
+    print(top_order(G))
+    b.successors = [a]
+    m.successors = []
+    G = [a,b,c,d,e,f,g,h,i,j,k,l,m]
+    print(top_order(G))
+    b.successors = []
+    m.successors = [j]
     G = [a,b,c,d,e,f,g,h,i,j,k,l,m]
     print(top_order(G))

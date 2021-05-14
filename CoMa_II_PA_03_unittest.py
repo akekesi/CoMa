@@ -24,9 +24,9 @@ class Test(unittest.TestCase):
 		G = [n]
 		self.assertEqual(top_order(G), ["N"])
 		G = [m,n]
-		self.assertEqual(top_order(G), ["M","N"])
-		G = [n,m]
 		self.assertEqual(top_order(G), ["N","M"])
+		G = [n,m]
+		self.assertEqual(top_order(G), ["M","N"])
 
 
 	def test_01(self):
@@ -105,11 +105,12 @@ class Test(unittest.TestCase):
 		self.assertEqual(top_order(G), ["1","2","9","8","6","4","11","5","7","10","3"])
 		#adj = [[],[1],[2],[5,9],[],[11],[3,7],[4],[3,10],[4],[6,8],[],[]]
 		G = [a,b,c,d,e,f,g,h,i,j,k,l]
-		self.assertEqual(top_order(G), ["0","1","2","9","8","6","4","11","5","7","10","3"])
+#		self.assertEqual(top_order(G), ["0","1","2","9","8","6","4","11","5","7","10","3"]) # rueckwaerts laut Teilkreises
+		self.assertEqual(top_order(G), ["1","2","9","8","6","4","11","5","7","10","3","0"])
 		#adj = [[],[]]
 		G = [a,d]
-		self.assertEqual(top_order(G), ["0","3"])
-
+#		self.assertEqual(top_order(G), ["0","3"]) # rueckwaerts laut Teilkreises
+		self.assertEqual(top_order(G), ["3","0"])
 		a.successors = [b]
 		b.successors = [c]
 		c.successors = [d]
@@ -119,8 +120,8 @@ class Test(unittest.TestCase):
 		g.successors = [f]
 		#adj = [[1],[2],[3],[],[3],[4],[5]]
 		G = [a,b,c,d,e,f,g]
-		self.assertEqual(top_order(G), ["0","1","2","3","6","5","4"])
-
+#		self.assertEqual(top_order(G), ["0","1","2","3","6","5","4"]) # rueckwaerts laut Teilkreises
+		self.assertEqual(top_order(G), ["6","5","4","0","1","2","3"])
 		a.successors = []
 		b.successors = [f]
 		c.successors = [b]
@@ -133,7 +134,8 @@ class Test(unittest.TestCase):
 		j.successors = [i]
 		#adj = [[],[5],[1],[],[1,2,8],[3,6],[],[2,9],[2],[8]]
 		G = [b,c,d,e,f,g,h,i,j]
-		self.assertEqual(top_order(G), ["4","8","2","1","5","6","3","7","9"])
+#		self.assertEqual(top_order(G), ["4","8","2","1","5","6","3","7","9"]) # rueckwaerts laut Teilkreises
+		self.assertEqual(top_order(G), ["7","9","4","8","2","1","5","6","3"])
 
 		a.successors = [b,c,f,g]
 		b.successors = []
@@ -149,7 +151,8 @@ class Test(unittest.TestCase):
 		l.successors = []
 		m.successors = []
 		G = [a,b,c,d,e,f,g,h,i,j,k,l,m]
-		self.assertEqual(top_order(G), ["0","6","7","8","5","4","3","2","1","9","12","11","10"])
+#		self.assertEqual(top_order(G), ["0","6","7","8","5","4","3","2","1","9","12","11","10"]) # rueckwaerts laut Teilkreises
+		self.assertEqual(top_order(G), ["9","12","11","10","0","6","7","8","5","4","3","2","1"])
 		b.successors = [a]
 		G = [a,b,c,d,e,f,g,h,i,j,k,l,m]
 		self.assertEqual(top_order(G), [-1])
@@ -191,7 +194,8 @@ class Test(unittest.TestCase):
 		e.successors = []
 		f.successors = []
 		G = [a,b,c,d,e,f]
-		self.assertEqual(top_order(G), ["0","4","1","5","2","3"])
+#		self.assertEqual(top_order(G), ["0","4","1","5","2","3"]) # rueckwaerts laut Teilkreises
+		self.assertEqual(top_order(G), ["1","5","2","3","0","4"])
 
 		a.successors = [b]
 		b.successors = [c]
@@ -205,7 +209,8 @@ class Test(unittest.TestCase):
 		self.assertEqual(top_order(G), [-1])
 		d.successors = []
 		G = [a,b,c,d,e,f,g,h]
-		self.assertEqual(top_order(G), ["4","0","1","2","3","5","6","7"])
+#		self.assertEqual(top_order(G), ["4","0","1","2","3","5","6","7"]) # rueckwaerts laut Teilkreises
+		self.assertEqual(top_order(G), ["7","6","5","4","0","1","2","3"])
 
 		a.successors = []
 		b.successors = [c,d]
@@ -217,7 +222,8 @@ class Test(unittest.TestCase):
 		h.successors = [g]
 		i.successors = []
 		G = [a,b,c,d,e,f,g,h,i]
-		self.assertEqual(top_order(G), ["0","1","2","3","4","5","8","7","6"])
+#		self.assertEqual(top_order(G), ["0","1","2","3","4","5","8","7","6"]) # rueckwaerts laut Teilkreises
+		self.assertEqual(top_order(G), ["7","6","4","5","8","1","2","3","0"])
 
 		a.successors = [b]
 		b.successors = [c]
@@ -228,18 +234,32 @@ class Test(unittest.TestCase):
 		g.successors = [f]
 		h.successors = []
 		G = [a,b,c,d,e,f,g,h]
-		self.assertEqual(top_order(G), ["0","1","2","3","4","7","6","5"])
+#		self.assertEqual(top_order(G), ["0","1","2","3","4","7","6","5"]) # rueckwaerts laut Teilkreises
+		self.assertEqual(top_order(G), ["6","5","3","4","7","0","1","2"])
 		h.successors = [g]
 		G = [a,b,c,d,e,f,g,h]
 		self.assertEqual(top_order(G), [-1])
 		e.successors = [b,c]
 		h.successors = []
 		G = [a,b,c,d,e,f,g,h]
-		self.assertEqual(top_order(G), ["0","1","2","3","4","6","5","7"])
+#		self.assertEqual(top_order(G), ["0","1","2","3","4","6","5","7"]) # rueckwaerts laut Teilkreises
+		self.assertEqual(top_order(G), ["7","6","5","3","4","0","1","2"])
 		e.successors = [b,c,h]
 		d.successors = [d]
 		G = [a,b,c,d,e,f,g,h]
 		self.assertEqual(top_order(G), [-1])
+
+		a.successors = [b,d]
+		b.successors = [d,g]
+		c.successors = [e]
+		d.successors = []
+		e.successors = []
+		f.successors = [g,h]
+		g.successors = []
+		h.successors = []
+		G = [a,b,c,d,e,f,g,h]
+		self.assertEqual(top_order(G), ["5","7","2","4","0","1","6","3"])
+
 
 
 

@@ -17,18 +17,17 @@ class Test(unittest.TestCase):
 		m.color = n.color = "white"
 		m.successors = []
 		n.successors = []
-
 		G = []
 		self.assertEqual(top_order(G), [])
-
 		G = [m]
 		self.assertEqual(top_order(G), ["M"])
-
 		G = [n]
 		self.assertEqual(top_order(G), ["N"])
-
 		G = [m,n]
 		self.assertEqual(top_order(G), ["M","N"])
+		G = [n,m]
+		self.assertEqual(top_order(G), ["N","M"])
+
 
 	def test_01(self):
     	# Test vom Uebungsblatt
@@ -172,6 +171,77 @@ class Test(unittest.TestCase):
 		d.successors = [f]
 		G = [a,b,c,d,e,f,g,h,i,j,k,l,m]
 		self.assertEqual(top_order(G), [-1])
+
+		a.successors = [b]
+		b.successors = [a]
+		c.successors = [b]
+		G = [a,b,c]
+		self.assertEqual(top_order(G), [-1])
+
+		a.successors = [b]
+		b.successors = [c]
+		c.successors = []
+		G = [a,b,c]
+		self.assertEqual(top_order(G), ["0","1","2"])
+
+		a.successors = [e]
+		b.successors = [c,d,e,f]
+		c.successors = [d,e]
+		d.successors = []
+		e.successors = []
+		f.successors = []
+		G = [a,b,c,d,e,f]
+		self.assertEqual(top_order(G), ["0","4","1","5","2","3"])
+
+		a.successors = [b]
+		b.successors = [c]
+		c.successors = [d]
+		d.successors = [a]
+		e.successors = [a]
+		f.successors = [b]
+		g.successors = [c]
+		h.successors = [d]
+		G = [a,b,c,d,e,f,g,h]
+		self.assertEqual(top_order(G), [-1])
+		d.successors = []
+		G = [a,b,c,d,e,f,g,h]
+		self.assertEqual(top_order(G), ["4","0","1","2","3","5","6","7"])
+
+		a.successors = []
+		b.successors = [c,d]
+		c.successors = [d]
+		d.successors = []
+		e.successors = [f]
+		f.successors = [i]
+		g.successors = []
+		h.successors = [g]
+		i.successors = []
+		G = [a,b,c,d,e,f,g,h,i]
+		self.assertEqual(top_order(G), ["0","1","2","3","4","5","8","7","6"])
+
+		a.successors = [b]
+		b.successors = [c]
+		c.successors = []
+		d.successors = [e]
+		e.successors = [b,c,h]
+		f.successors = [e]
+		g.successors = [f]
+		h.successors = []
+		G = [a,b,c,d,e,f,g,h]
+		self.assertEqual(top_order(G), ["0","1","2","3","4","7","6","5"])
+		h.successors = [g]
+		G = [a,b,c,d,e,f,g,h]
+		self.assertEqual(top_order(G), [-1])
+		e.successors = [b,c]
+		h.successors = []
+		G = [a,b,c,d,e,f,g,h]
+		self.assertEqual(top_order(G), ["0","1","2","3","4","6","5","7"])
+		e.successors = [b,c,h]
+		d.successors = [d]
+		G = [a,b,c,d,e,f,g,h]
+		self.assertEqual(top_order(G), [-1])
+
+
 
 if __name__ == "__main__":
     unittest.main()

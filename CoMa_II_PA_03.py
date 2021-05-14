@@ -93,6 +93,8 @@ def top_sort_ganze(adj):
         T: Topologische Sortierung, oder [-1], wenn adj Kreis enthaelt 
     """
     T = []
+    T_list = []
+    T_ = []
     _,K = eingang(adj)
     if len(K) == 0:
         K = [0]
@@ -100,14 +102,17 @@ def top_sort_ganze(adj):
         _,_,L,C = top_sort_teil(adj,K.pop(0))
         if C == True:
             return [-1]
-        T += L
+        T_list.append(L)                        # list of list rueckwaerts
+        T_ += L                                 # list rueckwaerts
         if len(L) != len(adj):                  # kivesszuk a mar felhasznalt csp-okat, hogy oda mar nem menjunk
             for a in adj:
                 for l in L:
                     if l in a:
                         a.remove(l)
-        if len(K) == 0 and len(T) != len(adj):  # ha nincs mar csp 0 bejovovel, de meg nem vizsgaltunk meg minden cp-ot
+        if len(K) == 0 and len(T_) != len(adj): # ha nincs mar csp 0 bejovovel, de meg nem vizsgaltunk meg minden cp-ot
             return [-1]                         # akkor kell uj K ertek a kovi loop-hoz (ahol valoszinu Kreis lesz)
+    for t_list in reversed(T_list):             # list of list rueckvaerts --> list jo sorrendben    
+        T += t_list
     return T
 
 def class_to_adj(G):

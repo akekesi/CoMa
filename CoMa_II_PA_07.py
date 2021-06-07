@@ -1,11 +1,10 @@
 # CoMaII - PA_07 - Triangulierung
 # Attila Kekesi
-# for comajudge
 
 class ngonTriang:
     def __init__(self,n,triangles):
         self.n = n
-        self.triangles = triangles
+        self.triangles = sorted(triangles)      # sorted
         self.walls, self.edges,self.B = self.get_walls_edges()
         if not self._is_triangulation():
             raise ValueError("no triangulation")
@@ -17,9 +16,8 @@ class ngonTriang:
         return len(self.walls)
 
     def flip(self,wall):
-        # keressuk meg a 2 haromszoget
-        # csereljuk ki az elsobol haromszogben az atlo masodik elemet a masodik haromszog azon a helyen levo elevel
-        # es forditva a masik haromszogre is igy
+        if wall == []:
+            return ngonTriang(self.n,self.triangles)
         Node = []
 #        Tri = copy.deepcopy(self.triangles)    # mit deepcopy
         Tri = self.triangles.copy()             # ohne deepcopy
@@ -43,8 +41,8 @@ class ngonTriang:
                 tmp2 = tri2[i]
         tri1[pos1] = tmp2
         tri2[pos2] = tmp1
-        Tri[Node[0]] = tri1                     # ohne deepcopy
-        Tri[Node[1]] = tri2                     # ohne deepcopy
+        Tri[Node[0]] = sorted(tri1)             # ohne deepcopy und sorted
+        Tri[Node[1]] = sorted(tri2)             # ohne deepcopy und sorted
         return ngonTriang(self.n,Tri)
 
     def get_walls_edges(self):
@@ -54,7 +52,7 @@ class ngonTriang:
         walls = []
         edges = []
         B = []
-        s = 0                   # number of nodes of tree
+        s = 0                                   # number of nodes of tree
         for triangle in self.triangles:
             b = []
             t = triangle.copy()
@@ -71,20 +69,20 @@ class ngonTriang:
                         edges.append(e)
                     else:                                                   # walls cross eachother
                         edges = False
-            B.append((s,triangle,b))  # tuple(node,triangle,[wall1],...)
+            B.append((s,triangle,b))            # tuple(node,triangle,[wall1],...)
             s += 1
-        return walls,edges,B
+        return sorted(walls),edges,B
 
     def _is_triangulation(self):
         """
         True:   if triangulation
         False:  if not triangulation
         """
-        if len(self.triangles) != self.n-2: # number of triangles == n-2
+        if len(self.triangles) != self.n-2:     # number of triangles == n-2
             return False
-        elif self.n_walls() != self.n-3:    # number of walls == n-3
+        elif self.n_walls() != self.n-3:        # number of walls == n-3
             return False
-        elif self.edges == False:           # edges not only once --> edges cross eachother 
+        elif self.edges == False:               # edges not only once --> edges cross eachother 
             return False
         else:
             return True
